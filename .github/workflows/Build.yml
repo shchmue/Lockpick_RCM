@@ -1,0 +1,36 @@
+name: Lockpick_RCM 11.0
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install devkitpro
+      run: |
+        wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.2/devkitpro-pacman.deb
+        sudo dpkg -i devkitpro-pacman.deb
+        sudo dkp-pacman -S switch-dev --noconfirm
+        sudo dkp-pacman -S devkitARM --noconfirm
+        
+    - name: Build Lockpick_RCM
+      run: |
+        echo #     SETTING PATH       #
+        export DEVKITPRO=/opt/devkitpro
+        export DEVKITARM=${DEVKITPRO}/devkitARM
+        export DEVKITPPC=${DEVKITPRO}/devkitPPC
+        export PATH=${DEVKITPRO}/tools/bin:$PATH
+        echo #          MAKE          #
+        make -j$(nproc)
+        
+    - uses: actions/upload-artifact@master
+      with:
+        name: Lockpick_RCM
+        path: output/Lockpick_RCM.bin
