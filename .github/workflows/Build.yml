@@ -1,4 +1,4 @@
-name: Lockpick_RCM 11.0
+name: Lockpick_RCM_11.0
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
         sudo dkp-pacman -S devkitARM --noconfirm
         
     - name: Build Lockpick_RCM
-      run: |
+      run: make
         echo #     SETTING PATH       #
         export DEVKITPRO=/opt/devkitpro
         export DEVKITARM=${DEVKITPRO}/devkitARM
