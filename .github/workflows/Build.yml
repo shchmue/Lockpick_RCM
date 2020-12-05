@@ -1,4 +1,4 @@
-name: Lockpick_RCM_11.0
+name: Lockpick_RCM Build
 
 on:
   push:
